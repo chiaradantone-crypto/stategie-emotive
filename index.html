@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kit di Gestione delle Emozioni</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .emotions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .emotion-btn {
+            background: white;
+            border: none;
+            border-radius: 15px;
+            padding: 30px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        
+        .emotion-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        .emotion-btn.active {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+        
+        .emotion-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        
+        .emotion-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .content-area {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .content-area.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .content-area h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 2em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .content-area h3 {
+            color: #764ba2;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .content-area ul {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+        
+        .content-area li {
+            margin-bottom: 10px;
+        }
+        
+        .strategy-box {
+            background: #f8f9ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .close-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        
+        .close-btn:hover {
+            background: #764ba2;
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .emotions-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .emotion-btn {
+                padding: 20px 10px;
+            }
+            
+            .emotion-icon {
+                font-size: 2em;
+            }
+            
+            .emotion-name {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 Kit di Gestione delle Emozioni</h1>
+            <p>Clicca sull'emozione che stai provando per scoprire cosa fare</p>
+        </div>
+        
+        <div class="emotions-grid">
+            <button class="emotion-btn" onclick="showEmotion('ansia')">
+                <div class="emotion-icon">😰</div>
+                <div class="emotion-name">ANSIA</div>
+            </button>
+            
+            <button class="emotion-btn" onclick="showEmotion('rabbia')">
+                <div class="emotion-icon">😠</div>
+                <div class="emotion-name">RABBIA</div>
+            </button>
+            
+            <button class="emotion-btn" onclick="showEmotion('tristezza')">
+                <div class="emotion-icon">😢</div>
+                <div class="emotion-name">TRISTEZZA</div>
+            </button>
+            
+            <button class="emotion-btn" onclick="showEmotion('vergogna')">
+                <div class="emotion-icon">😳</div>
+                <div class="emotion-name">VERGOGNA</div>
+            </button>
+            
+            <button class="emotion-btn" onclick="showEmotion('colpa')">
+                <div class="emotion-icon">😔</div>
+                <div class="emotion-name">SENSO DI COLPA</div>
+            </button>
+            
+            <button class="emotion-btn" onclick="showEmotion('panico')">
+                <div class="emotion-icon">😱</div>
+                <div class="emotion-name">PANICO</div>
+            </button>
+        </div>
+        
+        <!-- ANSIA -->
+        <div id="ansia" class="content-area">
+            <h2>😰 GESTIRE L'ANSIA</h2>
+            
+            <h3>Riconosci i segnali:</h3>
+            <ul>
+                <li>Cuore che batte forte</li>
+                <li>Respiro corto</li>
+                <li>Tensione muscolare</li>
+                <li>Pensieri accelerati</li>
+                <li>Sudorazione</li>
+            </ul>
+            
+            <div class="success-box">
+                <h3>💭 Pensieri Utili:</h3>
+                <ul>
+                    <li><strong>"Questa è ansia, non pericolo reale"</strong></li>
+                    <li>"L'ansia è scomoda ma non pericolosa"</li>
+                    <li>"Passerà, è solo temporanea"</li>
+                    <li>"Ho già superato questo in passato"</li>
+                </ul>
+            </div>
+            
+            <h3>🛠️ Strategie Immediate:</h3>
+            
+            <div class="strategy-box">
+                <strong>1. RESPIRAZIONE DIAFRAMMATICA (5-10 minuti)</strong>
+                <ul>
+                    <li>Inspira lentamente dal naso contando fino a 4</li>
+                    <li>Trattieni 2 secondi</li>
+                    <li>Espira dalla bocca contando fino a 6</li>
+                    <li>Ripeti 10 volte</li>
+                </ul>
+            </div>
+            
+            <div class="strategy-box">
+                <strong>2. GROUNDING 5-4-3-2-1</strong>
+                <ul>
+                    <li>Nomina 5 cose che VEDI</li>
+                    <li>Nomina 4 cose che TOCCHI</li>
+                    <li>Nomina 3 cose che SENTI (suoni)</li>
+                    <li>Nomina 2 cose che ANNUSI</li>
+                    <li>Nomina 1 cosa che GUSTI</li>
+                </ul>
+            </div>
+            
+            <div class="strategy-box">
+                <strong>3. RILASSAMENTO MUSCOLARE</strong>
+                <ul>
+                    <li>Contrai ogni gruppo muscolare per 5 secondi</li>
+                    <li>Rilascia e nota la differenza</li>
+                    <li>Parti dai piedi, sali verso la testa</li>
+                </ul>
+            </div>
+            
+            <div class="strategy-box">
+                <strong>4. MOVIMENTO</strong>
+                <ul>
+                    <li>Cammina per 10-15 minuti</li>
+                    <li>Fai stretching</li>
+                    <li>Salta sul posto 30 secondi</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <strong>⚠️ COSA NON FARE:</strong>
+                <ul>
+                    <li>✗ Evitare la situazione (rinforza l'ansia)</li>
+                    <li>✗ Cercare rassicurazioni eccessive</li>
+                    <li>✗ Combattere l'ansia (aumenta la tensione)</li>
+                </ul>
+            </div>
+            
+            <button class="close-btn" onclick="closeAll()">← Torna alle Emozioni</button>
+        </div>
+        
+        <!-- RABBIA -->
+        <div id="rabbia" class="content-area">
+            <h2>😠 GESTIRE LA RABBIA</h2>
+            
+            <h3>Riconosci i segnali:</h3>
+            <ul>
+                <li>Mascelle serrate</li>
+                <li>Pugni chiusi</li>
+                <li>Calore al viso</li>
+                <li>Pensieri di rivalsa</li>
+                <li>Impulso ad aggredire</li>
+            </ul>
+            
+            <div class="success-box">
+                <h3>💭 Pensieri Utili:</h3>
+                <ul>
+                    <li><strong>"Posso sentire rabbia senza agire d'impulso"</strong></li>
+                    <li>"Cosa voglio davvero ottenere in questa situazione?"</li>
+                    <li>"La rabbia mi sta dicendo che un mio bisogno non è rispettato"</li>
+                    <li>"Reagire d'impulso peggiorerebbe le cose"</li>
+                </ul>
+            </div>
+            
+            <h3>🛠️ Strategie Immediate:</h3>
+            
+            <div class="strategy-box">
+                <strong>1. PAUSA E DISTANZIAMENTO (FONDAMENTALE)</strong>
+                <ul>
+                    <li>Allontanati fisicamente dalla situazione</li>
+                    <li>Conta fino a 10 (o 100 se serve)</li>
+                    <li>Dì: "Ho bisogno di un momento, torno tra 10 minuti"</li>
+                </ul>
+            </div>
+            
+            <div class="strategy-box">
+                <strong>2. SCARICA FISICA SICURA</strong>
+                <ul>
+                    <li>Corri o cammina velocemente</li>
+                    <li>Colpisci un cuscino</li>
+                    <li>Strappa carta di giornale</li>
+                    <li>Fai flessioni o squat</li>
+                    <li>Urla in un cuscino</li>
+                </ul>
+            </div>
+            
+            <div class="strategy-box">
+                <strong>3. RESPIRAZIONE PER LA RABBIA</strong>
+                <ul>
+                    <li>Inspira per 4 secondi</li>
+                    <li>Espira per 8 secondi (espirazioni lunghe calmano)</li>
+                    <li>Ripeti fino a sentirti più calmo</li>
+                </ul>
+            </div>
+            
+            <div class="strategy-box">
+                <strong>4. ANALISI DEL BISOGNO</strong>
+                <ul>
+                    <li>"Quale mio bisogno/valore è stato violato?"</li>
+                    <li>"Cosa voglio davvero che accada?"</li>
+                    <li>"Come posso comunicarlo in modo efficace?"</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <strong>⚠️ COSA NON FARE:</strong>
+                <ul>
+                    <li>✗ Reagire immediatamente</li>
+                    <li>✗ Inviare messaggi o parlare nell'impulso</li>
+                    <li>✗ Guidare o prendere decisioni importanti</li>
+                    <li>✗ Usare sostanze per calmarti</li>
+                </ul>
+            </div>
+            
+            <button class="close-btn" onclick="closeAll()">← Torna alle Emozioni</button>
+        </div>
+        
+        <!-- TRISTEZZA -->
+        <div id="tristezza" class="content-area">
+            <h2>😢 GESTIRE LA TRISTEZZA</h2>
+            
+            <h3>Riconosci i segnali:</h3>
+            <ul>
+                <li>Senso di pesantezza</li>
+                <li>Pianto</li>
+                <li>Voglia di isolarsi</li>
+                <li>Nodo alla gola</li>
+                <li>Affaticamento</li>
+            </ul>
+            
+            <div class="success-box">
+                <h3>💭 Pensieri Utili:</h3>
+                <ul>
+                    <li><strong>"La tristezza è una risposta normale a una perdita"</strong></li>
+                    <li>"Non devo eliminare questa emozione, posso attraversarla"</li>
+                    <li>"Anche se non ho voglia, fare qualcosa mi aiuterà"</li>
+                    <li>"Questo momento passerà"</li>
+                </ul>
+            </div>
+            
+            <h3>🛠️ Strategie Immediate:</h3>
+            
+            <div class="strategy-box">
+                <strong>1. ATTIVAZIONE COMPORTAMENTALE</strong>
+                <p>Fai UNA piccola cosa, anche se non hai voglia:</p>
+                <ul>
+                    <li>Doccia calda</li>
+                    <li>Vestiti con cura</li>
+                    <li>Esci di casa anche solo 10 minuti</li>
+                    <li>Chiama una persona cara</li>
+                </ul>
+            </div>
+            
+            <div class="strategy-box">
+                <strong>2. LISTA DELLE PICCOLE AZIONI</strong>
+                <ul>
+                    <li>Mi lavo il viso</li>
+                    <li>Apro le tende</li>
+                    <li>Bevo un bicchiere d'acqua</li>
+                    <li>Ascolto una canzone che mi piace</li>
+                    <li>Faccio una passeggiata di 5 minuti</li>
+                </ul>
+            </div>
+            
+            <div class="strategy-box">
+                <strong>3. CONNESSIONE SOCIALE</strong>
+                <ul>
+                    <li>Messaggio a un amico</li>
+                    <li>Chiamata breve a qualcuno</li>
+                    <li>Stare vicino a qualcuno anche in silenzio</li>
+                </ul>
+            </div>
+            
+            <div class="strategy-box">
+                <strong>4. AUTO-COMPASSIONE</strong>
+                <ul>
+                    <li>Parla a te stesso come faresti con un amico caro</li>
+                    <li>"Sto passando un momento difficile ed è normale"</li>
+                    <li>Metti una mano sul cuore e respira</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <strong>⚠️ COSA NON FARE:</strong>
+                <ul>
+                    <li>✗ Restare a letto tutto il giorno</li>
+                    <li>✗ Isolarsi completamente</li>
+                    <li>✗ Aspettare di "sentirsi meglio" prima di agire</li>
+                    <li>✗ Giudicarsi per sentirsi tristi</li>
+                </ul>
+            </div>
+            
+            <button class="close-btn" onclick="closeAll()">← Torna alle Emozioni</button>
+        </div>
+        
+        <!-- VERGOGNA -->
+        <div id="vergogna" class="content-area">
+            <h2>😳 GESTIRE LA VERGOGNA</h2>
+            
+            <h3>Riconosci i segnali:</h3>
+            <ul>
+                <li>Voglia di nascondersi</li>
+                <li>Viso rosso</li>
+                <li>Evitare lo sguardo</li>
+                <li>Sensazione di essere "sbagliato"</li>
+                <li>Postura chiusa</li>
+            </ul>
+            
+            <div class="success-box">
+                <h3>💭 Pensieri Utili:</h3>
+                <ul>
+                    <li><strong>"Tutti fanno errori, sono umano"</strong></li>
+                    <li>"Un errore non definisce chi sono"</li>
+                    <li>"La perfezione non esiste"</li>
+                    <li>"Posso imparare da questo"</li>
+                </ul>
+            </div>
+            
+            <h3>🛠️ Strategie Immediate:</h3>
+            
+            <div class="strategy-box">
+                <strong>1. CONDIVISIONE (potentissima!)</strong>
+                <ul>
+                    <li>Parla dell'episodio con una persona fidata</li>
+                    <li>"La vergogna odia essere nominata"</li>
+                    <li>Scoprirai che altri hanno vissuto cose simili</li>
+                </ul>
+            </div>
+            
+            <div class="strategy-box">
+                <strong>2. AUTO-COMPASSIONE ATTIVA</strong>
+                <ul>
+                    <li>Scrivi una lettera compassionevole a te stesso</li>
+                    <li>"Caro [tuo nome], capisco che ti senti..."</li>
+                </ul>
+            </div>
+            
+            <div class="strategy-box">
+                <strong>3. DISTINZIONE TRA SÉ E COMPORTAMENTO</strong>
+                <ul>
+                    <li>"Ho fatto una cosa sbagliata" ≠ "Sono sbagliato"</li>
+                    <li>Scrivi: "Ho fatto X, e questo non mi rende una cattiva persona"</li>
+                </ul>
+            </div>
+            
+            <div class="strategy-box">
+                <strong>4. PROSPETTIVA TEMPORALE</strong>
+                <ul>
+                    <li>"Tra 5 anni, quanto sarà importante questo?"</li>
+                    <li>"Altri si ricorderanno di questo tra un mese?"</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <strong>⚠️ COSA NON FARE:</strong>
+                <ul>
+                    <li>✗ Nascondersi e isolarsi (alimenta la vergogna)</li>
+                    <li>✗ Evitare di pensarci (rimane irrisolto)</li>
+                    <li>✗ Punirsi eccessivamente</li>
+                </ul>
+            </div>
+            
+            <button class="close-btn" onclick="closeAll()">← Torna alle Emozioni</button>
+        </div>
+        
+        <!-- COLPA -->
+        <div id="colpa" class="content-area">
+            <h2>😔 GESTIRE IL SENSO DI COLPA</h2>
+            
+            <h3>Riconosci i segnali:</h3>
+            <ul>
+                <li>Ruminazione su cosa avresti dovuto fare</li>
+                <li>Bisogno di scusarsi ripetutamente</li>
+                <li>Auto-critica</li>
+                <li>Peso sul petto</li>
+            </ul>
+            
+            <div class="success-box">
+                <h3>💭 Pensieri Utili:</h3>
+                <ul>
+                    <li><strong>"Ho fatto del mio meglio con le risorse che avevo"</strong></li>
+                    <li>"Posso rimediare se necessario, ma poi devo andare avanti"</li>
+                    <li>"Non posso cambiare il passato, posso cambiare il presente"</li>
+                </ul>
+            </div>
+            
+            <h3>🛠️ Strategie Immediate:</h3>
+            
+            <div class="strategy-box">
+                <strong>1. COLPA SANA VS COLPA DISFUNZIONALE</strong>
+                <p><strong>Colpa sana</strong> (hai violato un tuo valore):</p>
+                <ul>
+                    <li>Scusati sinceramente se appropriato</li>
+                    <li>Ripara il danno se possibile</li>
+                    <li>Impara per il futuro</li>
+                    <li>Perdona te stesso</li>
+                </ul>
+                <p><strong>Colpa disfunzionale</strong> (standard irrealistici):</p>
+                <ul>
+                    <li>"Veramente ho fatto qualcosa di male?"</li>
+                    <li>"Quale standard sto applicando? È realistico?"</li>
+                </ul>
+            </div>
+            
+            <div class="strategy-box">
+                <strong>2. AZIONE RIPARATRICE</strong>
+                <ul>
+                    <li>Se hai ferito qualcuno: scusati e ripara</li>
+                    <li>Poi: lascia andare</li>
+                    <li>Se continui a sentirti in colpa: è disfunzionale</li>
+                </ul>
+            </div>
+            
+            <div class="strategy-box">
+                <strong>3. LETTERA DI PERDONO</strong>
+                <ul>
+                    <li>Scrivi una lettera in cui ti perdoni</li>
+                    <li>Spiega cosa hai imparato</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <strong>⚠️ COSA NON FARE:</strong>
+                <ul>
+                    <li>✗ Scusarti ripetutamente oltre il necessario</li>
+                    <li>✗ Punirti indefinitamente</li>
+                    <li>✗ Assumere responsabilità che non sono tue</li>
+                </ul>
+            </div>
+            
+            <button class="close-btn" onclick="closeAll()">← Torna alle Emozioni</button>
+        </div>
+        
+        <!-- PANICO -->
+        <div id="panico" class="content-area">
+            <h2>😱 GESTIRE IL PANICO</h2>
+            
+            <h3>Riconosci i segnali:</h3>
+            <ul>
+                <li>Battito cardiaco accelerato</li>
+                <li>Sensazione di perdere il controllo</li>
+                <li>Derealizzazione</li>
+                <li>Paura di morire</li>
+                <li>Tremore</li>
+            </ul>
+            
+            <div class="success-box">
+                <h3>💭 Pensieri Utili:</h3>
+                <ul>
+                    <li><strong>"Questo è un attacco di panico, non un attacco di cuore"</strong></li>
+                    <li>"Non posso svenire da un attacco di panico"</li>
+                    <li>"Il picco dura pochi minuti, poi scende"</li>
+                    <li>"Il mio corpo sta reagendo a una falsa allerta"</li>
+                </ul>
+            </div>
+            
+            <h3>🛠️ Strategie Immediate:</h3>
+            
+            <div class="strategy-box">
+                <strong>1. RESPIRAZIONE 4-7-8</strong>
+                <ul>
+                    <li>Inspira per 4 secondi</li>
+                    <li>Trattieni per 7 secondi</li>
+                    <li>Espira per 8 secondi</li>
+                    <li>Ripeti 4 volte</li>
+                </ul>
+            </div>
+            
+            <div class="strategy-box">
+                <strong>2. GALLEGGIA NEL PANICO (non combatterlo)</strong>
+                <ul>
+                    <li>"Va bene, sento paura. Posso permetterle di esserci"</li>
+                    <li>Osserva le sensazioni senza giudicarle</li>
+                    <li>"Dove sento la paura nel corpo?"</li>
+                </ul>
+            </div>
+            
+            <div class="strategy-box">
+                <strong>3. ANCORAGGIO FISICO</strong>
+                <ul>
+                    <li>Premi i piedi sul pavimento</li>
+                    <li>Stringi un oggetto freddo (cubetto di ghiaccio)</li>
+                    <li>Tocca texture diverse intorno a te</li>
+                </ul>
+            </div>
+            
+            <div class="strategy-box">
+                <strong>4. MANTIENI LA POSIZIONE</strong>
+                <ul>
+                    <li>NON scappare dalla situazione</li>
+                    <li>Resta dove sei finché il panico scende</li>
+                    <li>Dimostra a te stesso che sei al sicuro</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <strong>⚠️ COSA NON FARE:</strong>
+                <ul>
+                    <li>✗ Scappare dalla situazione (il panico vincerà)</li>
+                    <li>✗ Iperventilare (peggiora i sintomi)</li>
+                    <li>✗ Cercare di controllare il panico (aumenta la tensione)</li>
+                </ul>
+            </div>
+            
+            <button class="close-btn" onclick="closeAll()">← Torna alle Emozioni</button>
+        </div>
+    </div>
+    
+    <script>
+        function showEmotion(emotion) {
+            closeAll();
+            
+            const content = document.getElementById(emotion);
+            content.classList.add('active');
+            
+            content.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        
+        function closeAll() {
+            const contents = document.querySelectorAll('.content-area');
+            contents.forEach(c => c.classList.remove('active'));
+            
+            const buttons = document.querySelectorAll('.emotion-btn');
+            buttons.forEach(b => b.classList.remove('active'));
+        }
+    </script>
+</body>
+</html>
