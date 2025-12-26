@@ -1,1 +1,1 @@
-# stategie-emotive
+# strategie-emotive
